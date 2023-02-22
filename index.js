@@ -30,7 +30,7 @@ app.use(cors());
 app.use(morgan("combined"));
 app.use(
   express.json({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://volunteer-portal.onrender.com"],
   })
 );
 
