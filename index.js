@@ -8,14 +8,15 @@ const morgan = require("morgan");
 const app = express();
 const { ObjectId } = require("mongodb");
 const { Opportunity } = require("./Model");
+const { User } = require("./Model");
 
 const port = process.env.PORT;
 const url = process.env.CONNECTION_STRING;
 
-// const dburi = process.env.CONNECTION_STRING;
-// const { v4: uuidv4 } = require("uuid");
+const dburi = process.env.CONNECTION_STRING;
+const { v4: uuidv4 } = require("uuid");
 
-// mongoose.connect(dburi, { useNewUrlParser: true });
+mongoose.connect(dburi, { useNewUrlParser: true });
 
 // adding Helmet to enhance your API's security
 app.use(helmet());
@@ -34,12 +35,54 @@ app.use(
   })
 );
 
-// get request to test server
+// Add new user
 
-// app.get("/", (req, res) => {
-//   console.log("arriving at server");
-//   res.send("message received");
-// });
+app.post("/users", async (req, res) => {
+  if (!req.body.userName || !req.body.password) {
+    return res.sendStatus(400);
+  }
+  const user = new User({
+    userName: req.body.userName,
+    password: req.body.password,
+  });
+  await user.save();
+  res.send("User Added!");
+});
+
+// Front end sends request for user to login
+// if credentials are valid
+// send secret to allow past middleware
+
+app.post("/auth", async (req, res) => {
+  const user = await User.findOne({ username: req.body.username });
+
+  if (!user) {
+    return res.sendStatus(401);
+  }
+  if (user.password !== req.body.password) {
+    return res.sendStatus(403);
+  }
+  user.token = uuidv4();
+  await user.save();
+  console.log(user);
+  return res.send({ token: user.token });
+});
+
+app.get("/users", async (req, res) => {
+  res.send(await User.find());
+});
+
+// Custom Middleware for Authentication
+
+app.use(async (req, res, next) => {
+  const userToken = req.headers.authorization;
+  const user = await User.findOne({ token: userToken });
+  if (user) {
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+});
 
 // Create new opportunity and add to database
 
