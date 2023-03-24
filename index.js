@@ -94,8 +94,10 @@ app.post("/opportunities", async (req, res) => {
     !req.body.time ||
     !req.body.date ||
     !req.body.commitment ||
-    !req.body.location
+    !req.body.location ||
+    !req.body.type
   ) {
+    console.log("Error here", req.body);
     return res.sendStatus(400);
   }
   const opportunity = new Opportunity({
@@ -106,6 +108,7 @@ app.post("/opportunities", async (req, res) => {
     date: req.body.date,
     commitment: req.body.commitment,
     location: req.body.location,
+    type: req.body.type,
     live: true,
   });
   await opportunity.save();
