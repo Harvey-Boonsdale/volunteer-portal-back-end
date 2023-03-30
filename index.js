@@ -127,6 +127,28 @@ app.get("/opportunities", async (req, res) => {
   res.send(opportunities);
 });
 
+// Get one opportunity
+
+app.get("/opportunities/:id", async (req, res) => {
+  const opportunity = await Opportunity.findOne({
+    _id: new ObjectId(req.params.id),
+  });
+  res.send(opportunity);
+});
+
+// Delete event
+
+app.delete("/opportunities/:id", async (req, res) => {
+  const response = await Opportunity.deleteOne({
+    _id: new ObjectId(req.params.id),
+  });
+  if (response.deletedCount) {
+    res.send({ result: true });
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error"));
 db.once("open", () => {
