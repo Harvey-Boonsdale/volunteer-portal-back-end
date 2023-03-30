@@ -136,7 +136,43 @@ app.get("/opportunities/:id", async (req, res) => {
   res.send(opportunity);
 });
 
-// Delete event
+// Edit Opportunity
+
+app.put("/opportunities/:id", async (req, res) => {
+  const opportunity = await Opportunity.findOne({
+    _id: new ObjectId(req.params.id),
+  });
+  if (!opportunity) {
+    return res.sendStatus(404);
+  }
+  console.log(req.body);
+  if (
+    !req.body.name ||
+    !req.body.school ||
+    !req.body.details ||
+    !req.body.time ||
+    !req.body.date ||
+    !req.body.commitment ||
+    !req.body.location ||
+    !req.body.type
+  ) {
+    return res.sendStatus(400);
+  }
+
+  (opportunity.name = req.body.name),
+    (opportunity.school = req.body.school),
+    (opportunity.details = req.body.details),
+    (opportunity.time = req.body.time),
+    (opportunity.date = req.body.date),
+    (opportunity.commitment = req.body.commitment),
+    (opportunity.location = req.body.location),
+    (opportunity.type = req.body.type),
+    (opportunity.live = true),
+    await opportunity.save();
+  res.send("Opportunity Changed!");
+});
+
+// Delete Opportunity
 
 app.delete("/opportunities/:id", async (req, res) => {
   const response = await Opportunity.deleteOne({
