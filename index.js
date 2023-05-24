@@ -91,8 +91,6 @@ app.post("/opportunities", async (req, res) => {
     !req.body.name ||
     !req.body.school ||
     !req.body.details ||
-    !req.body.time ||
-    !req.body.date ||
     !req.body.commitment ||
     !req.body.location ||
     !req.body.type
@@ -104,11 +102,13 @@ app.post("/opportunities", async (req, res) => {
     name: req.body.name,
     school: req.body.school,
     details: req.body.details,
-    time: req.body.time,
+    startTime: req.body.startTime,
+    finishTime: req.body.finishTime,
     date: req.body.date,
     commitment: req.body.commitment,
     location: req.body.location,
     type: req.body.type,
+    info: req.body.info,
     live: true,
   });
   await opportunity.save();
@@ -150,11 +150,13 @@ app.put("/opportunities/:id", async (req, res) => {
     !req.body.name ||
     !req.body.school ||
     !req.body.details ||
-    !req.body.time ||
+    !req.body.startTime ||
+    !req.body.finishTime ||
     !req.body.date ||
     !req.body.commitment ||
     !req.body.location ||
-    !req.body.type
+    !req.body.type ||
+    !req.body.info
   ) {
     return res.sendStatus(400);
   }
@@ -162,11 +164,13 @@ app.put("/opportunities/:id", async (req, res) => {
   (opportunity.name = req.body.name),
     (opportunity.school = req.body.school),
     (opportunity.details = req.body.details),
-    (opportunity.time = req.body.time),
+    (opportunity.startTime = req.body.startTime),
+    (opportunity.finishTime = req.body.finishTime),
     (opportunity.date = req.body.date),
     (opportunity.commitment = req.body.commitment),
     (opportunity.location = req.body.location),
     (opportunity.type = req.body.type),
+    (opportunity.info = req.body.info),
     (opportunity.live = true),
     await opportunity.save();
   res.send("Opportunity Changed!");

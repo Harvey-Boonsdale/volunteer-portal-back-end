@@ -4,11 +4,13 @@ const opportunitySchema = mongoose.Schema({
   name: String,
   school: String,
   details: String,
-  time: String,
-  date: String,
+  startTime: String,
+  finishTime: String,
+  date: Date,
   commitment: String,
   location: String,
   type: String,
+  info: String,
   live: Boolean,
 });
 
