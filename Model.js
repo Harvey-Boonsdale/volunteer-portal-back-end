@@ -4,6 +4,7 @@ const opportunitySchema = mongoose.Schema({
   name: String,
   school: String,
   details: String,
+  year: String,
   startTime: String,
   finishTime: String,
   date: Date,
@@ -11,6 +12,7 @@ const opportunitySchema = mongoose.Schema({
   location: String,
   type: String,
   info: String,
+  special: Boolean,
   live: Boolean,
 });
 
