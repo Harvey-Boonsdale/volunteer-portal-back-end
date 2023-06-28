@@ -108,9 +108,8 @@ app.post("/opportunities", async (req, res) => {
     date: req.body.date,
     commitment: req.body.commitment,
     location: req.body.location,
-    type: req.body.type,
     info: req.body.info,
-    special: false,
+    type: req.body.type,
     live: true,
   });
   await opportunity.save();
@@ -147,7 +146,7 @@ app.put("/opportunities/:id", async (req, res) => {
   if (!opportunity) {
     return res.sendStatus(404);
   }
-  console.log(req.body);
+
   if (
     !req.body.name ||
     !req.body.school ||
@@ -168,8 +167,8 @@ app.put("/opportunities/:id", async (req, res) => {
     (opportunity.date = req.body.date),
     (opportunity.commitment = req.body.commitment),
     (opportunity.location = req.body.location),
-    (opportunity.type = req.body.type),
     (opportunity.info = req.body.info),
+    (opportunity.type = req.body.type),
     (opportunity.live = true),
     await opportunity.save();
   res.send("Opportunity Changed!");
