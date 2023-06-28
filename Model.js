@@ -12,7 +12,6 @@ const opportunitySchema = mongoose.Schema({
   location: String,
   type: String,
   info: String,
-  special: Boolean,
   live: Boolean,
 });
 
