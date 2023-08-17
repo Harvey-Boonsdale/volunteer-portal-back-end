@@ -5,7 +5,6 @@ const opportunitySchema = mongoose.Schema({
   school: String,
   details: String,
   year: String,
-  set: Boolean,
   startTime: String,
   finishTime: String,
   date: Date,
