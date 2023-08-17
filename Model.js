@@ -8,6 +8,7 @@ const opportunitySchema = mongoose.Schema({
   startTime: String,
   finishTime: String,
   date: Date,
+  tba: Boolean,
   commitment: String,
   location: String,
   type: String,
