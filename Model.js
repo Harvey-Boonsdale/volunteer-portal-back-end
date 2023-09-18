@@ -1,20 +1,22 @@
 const mongoose = require("mongoose");
 
-const opportunitySchema = mongoose.Schema({
-  name: String,
-  school: String,
-  details: String,
-  year: String,
-  startTime: String,
-  finishTime: String,
-  date: Date,
-  tba: Boolean,
-  commitment: String,
-  location: String,
-  type: String,
-  info: String,
-  live: Boolean,
-});
+const opportunitySchema = mongoose.Schema(
+  {
+    name: String,
+    school: String,
+    details: String,
+    year: String,
+    date: Date,
+    startTime: String,
+    finishTime: String,
+    commitment: String,
+    location: String,
+    type: String,
+    info: String,
+    live: Boolean,
+  },
+  { timestamps: true }
+);
 
 const userSchema = mongoose.Schema({
   userName: String,

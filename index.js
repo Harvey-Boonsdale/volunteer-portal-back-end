@@ -103,10 +103,9 @@ app.post("/opportunities", async (req, res) => {
     school: req.body.school,
     details: req.body.details,
     year: req.body.year,
+    date: req.body.date,
     startTime: req.body.startTime,
     finishTime: req.body.finishTime,
-    date: req.body.date,
-    tba: req.body.tba,
     commitment: req.body.commitment,
     location: req.body.location,
     info: req.body.info,
@@ -125,7 +124,9 @@ app.listen(port, () => {
 // Get all opportunities from database
 
 app.get("/opportunities", async (req, res) => {
-  const opportunities = await Opportunity.find();
+  const opportunityArray = await Opportunity.find();
+  const opportunities = opportunityArray.sort((a, b) => a.date - b.date);
+  console.log(opportunities);
   res.send(opportunities);
 });
 
@@ -163,10 +164,9 @@ app.put("/opportunities/:id", async (req, res) => {
     (opportunity.school = req.body.school),
     (opportunity.details = req.body.details),
     (opportunity.year = req.body.year),
+    (opportunity.date = req.body.date),
     (opportunity.startTime = req.body.startTime),
     (opportunity.finishTime = req.body.finishTime),
-    (opportunity.date = req.body.date),
-    (opportunity.tba = req.body.tba),
     (opportunity.commitment = req.body.commitment),
     (opportunity.location = req.body.location),
     (opportunity.info = req.body.info),
