@@ -49,6 +49,28 @@ app.post("/users", async (req, res) => {
   res.send("User Added!");
 });
 
+// Get one user
+
+app.get("/users/:id", async (req, res) => {
+  const user = await User.findOne({
+    _id: new ObjectId(req.params.id),
+  });
+  res.send(user);
+});
+
+// Delete user
+
+app.delete("/users/:id", async (req, res) => {
+  const response = await User.deleteOne({
+    _id: new ObjectId(req.params.id),
+  });
+  if (response.deletedCount) {
+    res.send({ result: true });
+  } else {
+    res.sendStatus(404);
+  }
+});
+
 // Front end sends request for user to login
 // if credentials are valid
 // send secret to allow past middleware
