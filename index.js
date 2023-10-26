@@ -86,14 +86,26 @@ app.post("/auth", async (req, res) => {
   }
   user.token = uuidv4();
   await user.save();
-  console.log(user);
   return res.send({ token: user.token });
 });
 
-app.get("/users", async (req, res) => {
-  res.send(await User.find());
+// Get all opportunities from database
+
+app.get("/opportunities", async (req, res) => {
+  const opportunityArray = await Opportunity.find();
+  const opportunities = opportunityArray.sort((a, b) => a.date - b.date);
+  console.log(opportunities);
+  res.send(opportunities);
 });
 
+// Get one opportunity
+
+app.get("/opportunities/:id", async (req, res) => {
+  const opportunity = await Opportunity.findOne({
+    _id: new ObjectId(req.params.id),
+  });
+  res.send(opportunity);
+});
 // Custom Middleware for Authentication
 
 app.use(async (req, res, next) => {
@@ -106,6 +118,9 @@ app.use(async (req, res, next) => {
   }
 });
 
+app.get("/users", async (req, res) => {
+  res.send(await User.find());
+});
 // Create new opportunity and add to database
 
 app.post("/opportunities", async (req, res) => {
@@ -141,24 +156,6 @@ app.post("/opportunities", async (req, res) => {
 mongoose.connect(url);
 app.listen(port, () => {
   console.log("server is live on port " + port);
-});
-
-// Get all opportunities from database
-
-app.get("/opportunities", async (req, res) => {
-  const opportunityArray = await Opportunity.find();
-  const opportunities = opportunityArray.sort((a, b) => a.date - b.date);
-  console.log(opportunities);
-  res.send(opportunities);
-});
-
-// Get one opportunity
-
-app.get("/opportunities/:id", async (req, res) => {
-  const opportunity = await Opportunity.findOne({
-    _id: new ObjectId(req.params.id),
-  });
-  res.send(opportunity);
 });
 
 // Edit Opportunity
