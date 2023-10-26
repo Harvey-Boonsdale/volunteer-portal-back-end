@@ -93,8 +93,16 @@ app.post("/auth", async (req, res) => {
 
 app.get("/opportunities", async (req, res) => {
   const opportunityArray = await Opportunity.find();
-  const opportunities = opportunityArray.sort((a, b) => a.date - b.date);
-  console.log(opportunities);
+  const opportunities = opportunityArray.sort((a, b) => {
+    if (a.date && !b.date) {
+      return -1;
+    } else if (!a.date && b.date) {
+      return 1;
+    } else {
+      return a.date - b.date;
+    }
+  });
+
   res.send(opportunities);
 });
 
